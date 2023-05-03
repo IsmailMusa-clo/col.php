@@ -20,7 +20,7 @@ $res = mysqli_query($con, $sql);
 				<div class="card">
 					<div class="card-body">
 						<h4 class="box-title">المدرسين </h4>
-						<h4 class="box-link btn btn-secondry"><a href="manage_teachers.php">إضافة مساق دراسي</a> </h4>
+						<h4 class="box-link btn btn-info"><a href="manage_teachers.php">إضافة مدرس</a> </h4>
 
 					</div>
 					<div class="card-body--">
@@ -48,7 +48,10 @@ $res = mysqli_query($con, $sql);
 												?>
 											</td>
 										</tr>
-									<?php } ?>
+									<?php
+										$i++;
+									}
+									?>
 								</tbody>
 							</table>
 						</div>

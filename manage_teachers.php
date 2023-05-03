@@ -39,7 +39,9 @@ if (isset($_POST['submit'])) {
 		} else {
 			mysqli_query($con, "insert into teacher(name) values('$name')");
 		}
-		header('location:teachers.php');
+		ob_start();
+		// header('location:manage_teachers.php');
+		echo "<script>window.location.href='teachers.php'</script>";
 		die();
 	}
 }

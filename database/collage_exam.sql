@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2023 at 12:52 AM
+-- Generation Time: May 03, 2023 at 07:19 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `collage_exam`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_users`
+--
+
+CREATE TABLE `admin_users` (
+  `id` bigint(20) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `role` enum('0','1') NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `mobile` varchar(100) NOT NULL,
+  `date` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin_users`
+--
+
+INSERT INTO `admin_users` (`id`, `username`, `password`, `role`, `email`, `mobile`, `date`) VALUES
+(1, 'admin', '123456', '0', 'admin@admin.com', '9855648231', '2023-05-03');
 
 -- --------------------------------------------------------
 
@@ -84,10 +107,17 @@ CREATE TABLE `students` (
   `id` bigint(20) NOT NULL,
   `name` varchar(100) NOT NULL,
   `spec` varchar(100) NOT NULL,
-  `ac_year` year(4) NOT NULL DEFAULT current_timestamp(),
+  `ac_year` int(11) NOT NULL DEFAULT 1,
   `phone` varchar(100) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id`, `name`, `spec`, `ac_year`, `phone`, `date`) VALUES
+(1, 'ahmed', 'كهرباء', 4, '0597865143', '2023-05-03 16:27:30');
 
 -- --------------------------------------------------------
 
@@ -98,11 +128,18 @@ CREATE TABLE `students` (
 CREATE TABLE `subjects` (
   `id` bigint(20) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `ac_year` year(4) NOT NULL DEFAULT current_timestamp(),
+  `ac_year` int(11) NOT NULL DEFAULT 1,
   `season` enum('1','2') NOT NULL,
   `desc` text DEFAULT NULL,
   `date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `subjects`
+--
+
+INSERT INTO `subjects` (`id`, `name`, `ac_year`, `season`, `desc`, `date`) VALUES
+(12, 'mathmatic', 2, '2', NULL, '2023-05-03');
 
 -- --------------------------------------------------------
 
@@ -115,6 +152,13 @@ CREATE TABLE `teacher` (
   `name` varchar(100) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `teacher`
+--
+
+INSERT INTO `teacher` (`id`, `name`, `date`) VALUES
+(1, 'ali mohammed j', '2023-05-03 16:10:13');
 
 -- --------------------------------------------------------
 
@@ -132,6 +176,12 @@ CREATE TABLE `teach_subject` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin_users`
+--
+ALTER TABLE `admin_users`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `contact_us`
@@ -191,6 +241,12 @@ ALTER TABLE `teach_subject`
 --
 
 --
+-- AUTO_INCREMENT for table `admin_users`
+--
+ALTER TABLE `admin_users`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `contact_us`
 --
 ALTER TABLE `contact_us`
@@ -218,19 +274,19 @@ ALTER TABLE `std_reg`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `teacher`
 --
 ALTER TABLE `teacher`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `teach_subject`

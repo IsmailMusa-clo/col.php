@@ -13,12 +13,14 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 	if ($check > 0) {
 		$row = mysqli_fetch_assoc($res);
 		$name = $row['name'];
+		$spec = $row['spec'];
+		$ac_year = $row['ac_year'];
+		$phone = $row['phone'];
 	} else {
 		header('location:students.php');
 		die();
 	}
 }
-
 if (isset($_POST['submit'])) {
 	$name = get_safe_value($con, $_POST['name']);
 	$spec = get_safe_value($con, $_POST['spec']);
@@ -40,11 +42,11 @@ if (isset($_POST['submit'])) {
 
 	if ($msg == '') {
 		if (isset($_GET['id']) && $_GET['id'] != '') {
-			mysqli_query($con, "update students set name='$name',ac_year='$ac_year',spec='$spec' ,phone='$phone'where id='$id'");
+			mysqli_query($con, "update students set name='$name',ac_year='$ac_year',spec='$spec' ,phone='$phone' where id='$id'");
 		} else {
 			mysqli_query($con, "insert into students(name,ac_year,spec,phone) values('$name','$ac_year','$spec','$phone')");
 		}
-		header('location:students.php');
+		echo "<script>window.location.href='students.php'</script>";
 		die();
 	}
 }
