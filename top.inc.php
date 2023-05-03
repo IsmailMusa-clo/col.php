@@ -61,20 +61,6 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="std_reg.php">
-                        <span class="icon">
-                            <i class='bx bx-collapse-horizontal'></i> </span>
-                        <span class="title"> تسجيل المساقات للطالب</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="tech_sub.php">
-                        <span class="icon">
-                            <i class='bx bx-collapse-horizontal'></i> </span>
-                        <span class="title"> تحديد مدرس المساق </span>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="contact_us.php">
                         <span class="icon">
                             <i class='bx bx-collapse-horizontal'></i> </span>
