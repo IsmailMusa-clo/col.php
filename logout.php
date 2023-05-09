@@ -1,7 +1,9 @@
 <?php
 	session_start();
-	unset($_SESSION['ADMIN_LOGIN']);
-	unset($_SESSION['ADMIN_USERNAME']);
-	header('location:login.php');
+	unset($_SESSION['STD_LOGIN']);
+	unset($_SESSION['STD_LOGIN']);
+	unset($_SESSION['EMP_USERNAME']);
+	unset($_SESSION['EMP_USERNAME']);
+	header('location:index.php');
 	die();
 ?>

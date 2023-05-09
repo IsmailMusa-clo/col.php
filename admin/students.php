@@ -50,6 +50,7 @@ $res = mysqli_query($con, $sql);
 											<td><?php echo $row['date'] ?></td>
 											<td>
 												<?php
+												echo "<span class='badge badge-edit'><a href='std_sub_reg.php?id=" . $row['id'] . "'>عرض المواد الدراسية المسجلة</a></span>&nbsp;";
 												echo "<span class='badge badge-edit'><a href='std_reg.php?id=" . $row['id'] . "'>تسجيل مادة</a></span>&nbsp;";
 												echo "<span class='badge badge-edit'><a href='manage_students.php?id=" . $row['id'] . "'>Edit</a></span>&nbsp;";
 												echo "<span class='badge badge-delete'><a href='?type=delete&id=" . $row['id'] . "'>Delete</a></span>";

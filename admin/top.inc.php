@@ -3,8 +3,8 @@ include_once('connection.inc.php');
 include_once('functions.inc.php');
 if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
 } else {
-   header('location:login.php');
-   die();
+    header('location:login.php');
+    die();
 }
 ?>
 <!DOCTYPE html>
@@ -15,8 +15,7 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
     <link rel="stylesheet" href="css/style.css">
     <title>لوحة تحكم عربية</title>
@@ -61,6 +60,13 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="subject_reg.php">
+                        <span class="icon">
+                            <i class='bx bx-collapse-horizontal'></i> </span>
+                        <span class="title">الموادالمسجلة </span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="contact_us.php">
                         <span class="icon">
                             <i class='bx bx-collapse-horizontal'></i> </span>
@@ -101,11 +107,11 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
                         <div class="result-box">
                             <div class="items">
                                 <ul>
-                                    <li><a href="logout.php"">تسجيل خروج</a><i class='bx bx-log-out-circle'></i></li>
-                           </ul>
+                                    <li><a href="logout.php"><i class='bx bx-log-out-circle'></i></a></li>
+                                </ul>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
+                    </div>
+                </div>
             </div>
             <div class="container mt-5">
