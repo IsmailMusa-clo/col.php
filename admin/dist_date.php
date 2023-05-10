@@ -35,23 +35,23 @@ foreach ($courses as $exam) {
     } else {
         mysqli_query($con, "insert into exam(`sub_id`,`exam_date`) values('$sub','$random_date_formatted')");
     }
+}
+$query3 = "SELECT id FROM teacher";
+$result3 = mysqli_query($con, $query3);
+while ($row = mysqli_fetch_assoc($result3)) {
+    mysqli_query($con, "UPDATE exam SET `teacher_id`= '$t_id'  WHERE id='$id'");
+    // foreach ($exams as $ex) {
+    //     if ($row['id'] == $exam['tech_id']) {
+    //      } else {
+    //         $id = $ex['id'];
+    //         echo $id;
+    //         $t_id = $row['id'];
 
-    // إنشاء مصفوفة جديدة لتخزين جدول المدرسين
-    $query3 = "SELECT id FROM teacher";
-    $result3 = mysqli_query($con, $query3);
-    while ($row = mysqli_fetch_assoc($result3)) {
-        foreach ($exams as $ex) {
-            if ($row['id'] == $exam['tech_id']) {
-             } else {
-                $id = $ex['id'];
-                echo $id;
-                $t_id = $row['id'];
-                mysqli_query($con, "UPDATE exam SET `teacher_id`= '$t_id'  WHERE id='$id'");
-                continue;
-            }
-        }
-        
-    }
+    //         exit;
+    //     }
+    // }
 
 }
-echo "<script>window.location.href='index.php'</script>";
+
+
+echo "<script>window.location.href='dist_teach.php'</script>";

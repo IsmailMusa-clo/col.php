@@ -69,16 +69,17 @@ $res = mysqli_query($con, $sql);
                                     $subject_name = $row_sub['name'];
                                 $sql_ex = "select * from exam  where sub_id ='" . $row_sub['id'] . "'";
                                 $res_ex = mysqli_query($con, $sql_ex);
-                                while ($row_ex = mysqli_fetch_assoc($res_ex)) {
-                                    $date = date("Y-M-D", strtotime($row_ex['exam_date']));
-                                }
+                                
                             ?>
                                     <tr>
                                         <td class="serial"><?php echo $i ?></td>
                                         <td><?php echo $subject_name ?></td>
                                         <td><?php echo $row_sub['ac_year'] ?></td>
                                         <td><?php echo $year ?></td>
-                                        <td><?php $date?></td>
+                                        <td><?php while ($row_ex = mysqli_fetch_assoc($res_ex)) {
+                                                $date = date("y-m-d", strtotime($row_ex['exam_date']));
+                                                echo $date;
+                                            }?></td>
                                     </tr>
                             <?php $i++;
                                 }

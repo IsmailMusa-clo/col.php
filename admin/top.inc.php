@@ -45,6 +45,14 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
                         <span class="title"> المساقات الدراسية</span>
                     </a>
                 </li>
+                <li class="nav-item active">
+                    <a href="dist_date.php">
+                        <span class="icon">
+                            <i class='bx bx-collapse-horizontal'></i>
+                        </span>
+                        <span class="title"> تحديد مواعيد الاختبارات </span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="students.php">
                         <span class="icon">
