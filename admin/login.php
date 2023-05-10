@@ -52,8 +52,8 @@ if (isset($_POST['submit'])) {
       background-size: 100% 100%;
    }
 
-   .login-content{
-      background-color:aliceblue;
+   .login-content {
+      background-color: aliceblue;
       padding: 40px;
       width: 60%;
       margin: auto;
@@ -75,7 +75,10 @@ if (isset($_POST['submit'])) {
                      <label><b>PASSWORD</b></label>
                      <input type="password" name="password" class="form-control" placeholder="          " required>
                   </div>
-                  <button type="submit" name="submit" class="btn btn-success btn-flat m-b-30 m-t-30">SIGN IN</button>
+                  <div class="my-5 gap-2 d-flex justify-content-end">
+                     <button type="submit" name="submit" class="btn btn-success btn-flat m-b-30 m-t-30">SIGN IN</button>
+                     <a href="../index.php" class="btn btn-info" >الرجوع لصفحة المستخدم</a>
+                  </div>
                </form>
                <div class="field_error"><?php echo $msg ?></div>
             </div>

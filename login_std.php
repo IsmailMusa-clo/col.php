@@ -11,13 +11,13 @@ if (isset($_POST['submit'])) {
    $count = mysqli_num_rows($res);
    if ($count > 0) {
       $row = mysqli_fetch_assoc($res);
-         var_dump($row['id']);
-         $_SESSION['STD_LOGIN'] = 'yes';
-         $_SESSION['STD_ID'] = $row['id'];
-         $_SESSION['STD_USERNAME'] = $username;
-         $_SESSION['STD_ROLE'] = $row['role'];
-         header('location:student_dash.php');
-         die();
+      var_dump($row['id']);
+      $_SESSION['STD_LOGIN'] = 'yes';
+      $_SESSION['STD_ID'] = $row['id'];
+      $_SESSION['STD_USERNAME'] = $username;
+      $_SESSION['STD_ROLE'] = $row['role'];
+      header('location:student_dash.php');
+      die();
    } else {
       $msg = "PLEASE ENTER CORRECT LOGIN DETAILS";
    }
@@ -73,7 +73,10 @@ if (isset($_POST['submit'])) {
                      <label><b>PASSWORD</b></label>
                      <input type="password" name="password" class="form-control" placeholder="          " required>
                   </div>
-                  <button type="submit" name="submit" class="btn btn-success btn-flat m-b-30 m-t-30">SIGN IN</button>
+                  <div class="my-5 gap-2 d-flex justify-content-end">
+                     <button type="submit" name="submit" class="btn btn-success btn-flat m-b-30 m-t-30">SIGN IN</button>
+                     <a href="../index.php" class="btn btn-info">الرجوع لصفحة المستخدم</a>
+                  </div>
                </form>
                <div class="field_error"><?php echo $msg ?></div>
             </div>

@@ -69,7 +69,7 @@ if (isset($_POST['submit'])) {
                                 <input type="hidden" name="id" placeholder="ENTER  NAME"  class="form-control" required value="<?php echo $std_id ?>">
                             </div>
                             <div class="form-group">
-                                <label for="name" class=" form-control-label">اسم الطالب</label>
+                                <label for="name" class=" form-control-label">المادة الدراسية </label>
                                 <select class="form-select" name="sub_id" aria-label="Default select example">
                                     <option selected>اختر المادة التي تريد تسجيلها</option>
                                     <?php while ($row = mysqli_fetch_assoc($res_subject)) { ?>

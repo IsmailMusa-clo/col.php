@@ -41,6 +41,7 @@ if (isset($_POST['submit'])) {
                 <a class="nav-link active" aria-current="page" href="#">الرئيسية</a>
                 <a class="nav-link" href="#about">من نحن </a>
                 <a class="nav-link" href="#contact">تواصل معنا</a>
+                <a class="nav-link" href="admin/index.php">صفحة الأدمن</a>
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     تسجيل الدخول
                 </a>
