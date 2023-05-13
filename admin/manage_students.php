@@ -3,6 +3,7 @@ require('top.inc.php');
 isAdmin();
 $name = '';
 $spec = '';
+$password = '';
 $ac_year = '';
 $phone = '';
 $msg = '';
@@ -14,6 +15,7 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 		$row = mysqli_fetch_assoc($res);
 		$name = $row['name'];
 		$spec = $row['spec'];
+		$password = $row['password'];
 		$ac_year = $row['ac_year'];
 		$phone = $row['phone'];
 	} else {
@@ -26,6 +28,8 @@ if (isset($_POST['submit'])) {
 	$spec = get_safe_value($con, $_POST['spec']);
 	$ac_year = get_safe_value($con, $_POST['ac_year']);
 	$phone = get_safe_value($con, $_POST['phone']);
+	$password= get_safe_value($con, $_POST['password']);
+
 	$res = mysqli_query($con, "select * from students where name='$name'");
 	$check = mysqli_num_rows($res);
 	if ($check > 0) {
@@ -42,9 +46,9 @@ if (isset($_POST['submit'])) {
 
 	if ($msg == '') {
 		if (isset($_GET['id']) && $_GET['id'] != '') {
-			mysqli_query($con, "update students set name='$name',ac_year='$ac_year',spec='$spec' ,phone='$phone' where id='$id'");
+			mysqli_query($con, "update students set name='$name',ac_year='$ac_year',spec='$spec' ,phone='$phone',password='$password' where id='$id'");
 		} else {
-			mysqli_query($con, "insert into students(name,ac_year,spec,phone) values('$name','$ac_year','$spec','$phone')");
+			mysqli_query($con, "insert into students(name,ac_year,spec,phone,password) values('$name','$ac_year','$spec','$phone','$password')");
 		}
 		echo "<script>window.location.href='students.php'</script>";
 		die();
@@ -75,6 +79,10 @@ if (isset($_POST['submit'])) {
 							<div class="form-group">
 								<label for="phone" class=" form-control-label">التخصص</label>
 								<input type="text" name="spec" placeholder="ENTER  spec " class="form-control" required value="<?php echo $spec ?>">
+							</div>
+							<div class="form-group">
+								<label for="password" class=" form-control-label">كلمة المرور</label>
+								<input type="password" name="password" id="password" placeholder="ENTER  password " class="form-control" required value="<?php echo $password ?>">
 							</div>
 
 							<button id="payment-button" name="submit" type="submit" class="btn btn-lg btn-info btn-block">

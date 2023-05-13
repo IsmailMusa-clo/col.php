@@ -46,7 +46,7 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
                     </a>
                 </li>
                 <li class="nav-item active">
-                    <a href="dist_date.php">
+                    <a href="dist_teach.php">
                         <span class="icon">
                             <i class='bx bx-collapse-horizontal'></i>
                         </span>

@@ -2,6 +2,7 @@
 require('top.inc.php');
 isAdmin();
 $name = '';
+$password = '';
 $msg = '';
 if (isset($_GET['id']) && $_GET['id'] != '') {
 	$id = get_safe_value($con, $_GET['id']);
@@ -10,6 +11,8 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 	if ($check > 0) {
 		$row = mysqli_fetch_assoc($res);
 		$name = $row['name'];
+		$password = $row['password'];
+
 	} else {
 		header('location:teachers.php');
 		die();
@@ -18,6 +21,7 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 
 if (isset($_POST['submit'])) {
 	$name = get_safe_value($con, $_POST['name']);
+	$password = get_safe_value($con, $_POST['password']);
 
 	$res = mysqli_query($con, "select * from teacher where name='$name'");
 	$check = mysqli_num_rows($res);
@@ -35,9 +39,9 @@ if (isset($_POST['submit'])) {
 
 	if ($msg == '') {
 		if (isset($_GET['id']) && $_GET['id'] != '') {
-			mysqli_query($con, "update teacher set name='$name' where id='$id'");
+			mysqli_query($con, "update teacher set name='$name',password='$password' where id='$id'");
 		} else {
-			mysqli_query($con, "insert into teacher(name) values('$name')");
+			mysqli_query($con, "insert into teacher(name,password) values('$name','$password')");
 		}
 		ob_start();
 		// header('location:manage_teachers.php');
@@ -57,6 +61,10 @@ if (isset($_POST['submit'])) {
 							<div class="form-group">
 								<label for="name" class=" form-control-label">اسم المدرس</label>
 								<input type="text" name="name" placeholder="ENTER  NAME" class="form-control" required value="<?php echo $name ?>">
+							</div>
+							<div class="form-group">
+								<label for="password" class=" form-control-label">كلمة المرور</label>
+								<input type="password" id="password" name="password" placeholder="ENTER  password " class="form-control" required value="<?php echo $password ?>">
 							</div>
 							<button id="payment-button" name="submit" type="submit" class="btn btn-lg btn-info btn-block">
 								<span id="payment-button-amount">SUBMIT</span>

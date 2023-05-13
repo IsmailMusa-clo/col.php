@@ -40,16 +40,6 @@ $query3 = "SELECT id FROM teacher";
 $result3 = mysqli_query($con, $query3);
 while ($row = mysqli_fetch_assoc($result3)) {
     mysqli_query($con, "UPDATE exam SET `teacher_id`= '$t_id'  WHERE id='$id'");
-    // foreach ($exams as $ex) {
-    //     if ($row['id'] == $exam['tech_id']) {
-    //      } else {
-    //         $id = $ex['id'];
-    //         echo $id;
-    //         $t_id = $row['id'];
-
-    //         exit;
-    //     }
-    // }
 
 }
 
