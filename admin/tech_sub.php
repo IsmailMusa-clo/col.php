@@ -52,7 +52,7 @@ if (isset($_POST['submit'])) {
                     <form method="post" action="">
                         <div class="card-body card-block">
                             <div class="form-group">
-                                <label for="name" class=" form-control-label">اسم المدرس</label>
+                                <label for="name" class=" form-control-label">مهندس المادة</label>
                                 <input type="text" name="name" placeholder="ENTER  NAME"  class="form-control" required value="<?php echo $name ?>">
                                 <input type="hidden" name="id" placeholder="ENTER  NAME"  class="form-control" required value="<?php echo $tech_id ?>">
                             </div>

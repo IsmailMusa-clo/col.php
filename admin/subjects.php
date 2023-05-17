@@ -20,8 +20,8 @@ $res = mysqli_query($con, $sql);
 			<div class="col-xl-12">
 				<div class="card">
 					<div class="card-body">
-						<h4 class="box-title">المساقات الدارسية </h4>
-						<h4 class="box-link btn btn-info"><a href="manage_subjects.php">إضافة مساق دراسي</a> </h4>
+						<h4 class="box-title">المواد الدارسية </h4>
+						<h4 class="box-link btn btn-info"><a href="manage_subjects.php">إضافة مادة دراسية</a> </h4>
 					</div>
 					<div class="card-body--">
 						<div class="table-stats order-table ov-h">

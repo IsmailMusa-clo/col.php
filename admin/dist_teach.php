@@ -20,7 +20,7 @@ $res = mysqli_query($con, $sql);
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="box-title"> الاختبارات للمساقات الدارسية  </h4>
+                        <h4 class="box-title"> الاختبارات للمواد الدارسية  </h4>
                         <h4 class="box-link btn btn-info"><a href="manage_dist_teach.php">إضافة اختبار جديد</a> </h4>
                     </div>
                     <div class="card-body--">
@@ -29,9 +29,10 @@ $res = mysqli_query($con, $sql);
                                 <thead>
                                     <tr>
                                         <th class="serial">#</th>
-                                        <th>اسم المساق</th>
+                                        <th>اسم المادة</th>
                                         <th>مراقب الاختبار</th>
                                         <th>تاريخ الاختبار</th>
+                                        <th>فترة الاختبار</th>
                                         <th>تعديل أو حذف</th>
                                     </tr>
                                 </thead>
@@ -55,6 +56,7 @@ $res = mysqli_query($con, $sql);
                                             <td><?php echo $row_result5['name'] ?></td>
                                             <td><?php echo $row_result6['name'] ?></td>
                                             <td><?php echo $date_formatted ?></td>
+                                            <td><?php echo $row['time']?></td>
                                             <td>
                                                 <?php
                                                 echo "<span class='badge badge-edit'><a href='manage_dist_teach.php?id=" . $row['id'] . "'>Edit</a></span>&nbsp;";

@@ -7,16 +7,16 @@ if (isset($_POST['submit'])) {
     $email =  $_POST['email'];
     $mobile =  $_POST['mobile'];
     $comm =  $_POST['comment'];
-    if (empty($name)||empty($email)||empty($mobile)||empty($comm)) {
+    if (empty($name) || empty($email) || empty($mobile) || empty($comm)) {
         echo "<script>
             alert('   يجب تعبئة باقي الحقول  ');
-        </script>";        
-    }else{
-    mysqli_query($con, "insert into contact_us(`name`,`email`,`mobile`,`comment`) values('$name','$email','$mobile','$comm')");
-    echo "<script>
+        </script>";
+    } else {
+        mysqli_query($con, "insert into contact_us(`name`,`email`,`mobile`,`comment`) values('$name','$email','$mobile','$comm')");
+        echo "<script>
 		alert(' تم إرسال الطلب بنجاح ');
 	</script>";
-}
+    }
 }
 
 ?>
@@ -42,13 +42,9 @@ if (isset($_POST['submit'])) {
                 <a class="nav-link" href="#about">من نحن </a>
                 <a class="nav-link" href="#contact">تواصل معنا</a>
                 <a class="nav-link" href="admin/index.php">صفحة الأدمن</a>
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link" href="login_emp.php" >
                     تسجيل الدخول
                 </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="login_std.php">طالب</a></li>
-                    <li><a class="dropdown-item" href="login_emp.php">موظف</a></li>
-                </ul>
             </div>
 
         </div>

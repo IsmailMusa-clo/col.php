@@ -55,11 +55,11 @@ if (isset($_POST['submit'])) {
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card">
-					<div class="card-header"><strong>المدرس</strong> </div>
+					<div class="card-header"><strong>المهندس</strong> </div>
 					<form method="post">
 						<div class="card-body card-block">
 							<div class="form-group">
-								<label for="name" class=" form-control-label">اسم المدرس</label>
+								<label for="name" class=" form-control-label">اسم المهندس</label>
 								<input type="text" name="name" placeholder="ENTER  NAME" class="form-control" required value="<?php echo $name ?>">
 							</div>
 							<div class="form-group">

@@ -54,15 +54,15 @@ if (isset($_POST['submit'])) {
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card">
-					<div class="card-header"><strong>المساق الدارسي</strong> </div>
+					<div class="card-header"><strong>المادة الدارسية</strong> </div>
 					<form method="post" action="">
 						<div class="card-body card-block">
 							<div class="form-group">
-								<label for="name" class=" form-control-label">اسم المساق</label>
+								<label for="name" class=" form-control-label">اسم المادة</label>
 								<input type="text" name="name" placeholder="ENTER CATEGORIES NAME" class="form-control" required value="<?php echo $name ?>">
 							</div>
 							<div class="form-group">
-								<label for="ac_year" class=" form-control-label">السنة الدراسية للمساق</label>
+								<label for="ac_year" class=" form-control-label">السنة الدراسية للمادة</label>
 								<input type="number" min="1" max="5" name="ac_year" placeholder="ENTER ac year" class="form-control" required value="<?php echo $ac_year ?>">
 							</div>
 							<div class="form-group">
