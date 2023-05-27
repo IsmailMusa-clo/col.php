@@ -1,4 +1,5 @@
 <?php
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -12,45 +13,54 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Select all teachers
-$sql = "SELECT id FROM teacher";
-$result = $conn->query($sql);
-$teachers = array();
-while ($row = $result->fetch_assoc()) {
-    $teachers[] = $row['id'];
-}
-
-// Select all subjects and their registration dates
-$sql = "SELECT id, date FROM subjects";
-$result = $conn->query($sql);
+// Fetch all subjects from exam table
+$sql = "SELECT id, name FROM subjects";
+$result = mysqli_query($conn, $sql);
 $subjects = array();
-while ($row = $result->fetch_assoc()) {
+while ($row = mysqli_fetch_assoc($result)) {
     $subjects[] = $row;
 }
 
-// Shuffle teachers and subjects to distribute them equally
-shuffle($teachers);
-shuffle($subjects);
+foreach ($subjects as $subject) {
+    $sub_id = $subject['id'];
 
-// Assign subjects to teachers
-for ($i = 0; $i < count($subjects); $i++) {
-    $teacher = $teachers[$i % count($teachers)];
-    $subject = $subjects[$i]['id'];
-    $registration_date = $subjects[$i]['date'];
-
-    // Check if the teacher teaches the subject
-    $sql = "SELECT * FROM teach_subject WHERE tech_id = $teacher AND sub_id = $subject";
+    // Check if the subject already has assigned invigilators and time
+    $sql = "SELECT * FROM exam WHERE sub_id = $sub_id AND invigilators IS NOT NULL AND time IS NOT NULL";
     $result = $conn->query($sql);
+
     if ($result->num_rows == 0) {
-        // Assign the teacher to the subject
-        $time = $i % 2 == 0 ? 'first' : 'second';
-        $exam_date = date('Y-m-d', strtotime($registration_date . ' + 2 months'));
-        $sql = "INSERT INTO exam (exam_date, teacher_id, sub_id, time) VALUES ('$exam_date', $teacher, $subject, '$time')";
+        // Select teachers who do not teach the subject
+        $sql = "SELECT teacher.id FROM teacher LEFT JOIN teach_subject ON teacher.id = teach_subject.tech_id AND teach_subject.sub_id = $sub_id WHERE teach_subject.id IS NULL";
+        $result = $conn->query($sql);
+        $teachers = array();
+        while ($row = $result->fetch_assoc()) {
+            $teachers[] = $row['id'];
+        }
+
+        // Shuffle teachers
+        shuffle($teachers);
+
+        // Assign invigilators to the subject
+        $time = 'first'; // Set the default time as 'first'
+        $invigilators = array();
+
+        for ($i = 0; $i < 2; $i++) {
+            $teacher = $teachers[$i];
+            $invigilators[] = $teacher; // Add the teacher to the invigilators array
+
+            $time = 'second'; // Change the time to 'second' for the second invigilator
+        }
+
+        // Convert the invigilators array to JSON
+        $invigilators_json = json_encode($invigilators);
+
+        // Update the exam record with the selected subject, time, and invigilators
+        $sql = "UPDATE exam SET time = '$time', invigilators = '$invigilators_json' WHERE sub_id = $sub_id";
         $conn->query($sql);
     }
 }
 
 $conn->close();
 
-
-echo "<script>window.location.replace('dist_teach.php')</script>";
+header("Location: dist_teach.php");
+exit();

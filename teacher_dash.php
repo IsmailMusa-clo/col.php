@@ -1,17 +1,19 @@
 <?php
 include "admin/connection.inc.php";
 if (!isset($_SESSION['EMP_LOGIN'])) {
-?>
-    <script>
-        window.location.href = 'login_emp.php';
-    </script>
-<?php
+    header("Location: login_emp.php");
+    exit();
 }
-$teacher_id = $_SESSION['EMP_ID'];
-$sql = "select * from  teach_subject  where tech_id ='$teacher_id'";
-$res = mysqli_query($con, $sql);
-?>
 
+$teacher_id = $_SESSION['EMP_ID'];
+$sql = "SELECT e.*, s.name AS subject_name
+FROM exam e
+INNER JOIN subjects s ON e.sub_id = s.id
+WHERE e.invigilators LIKE '%$teacher_id%'";
+
+$res = mysqli_query($con, $sql);
+
+?>
 
 <!DOCTYPE html>
 <html dir="rtl">
@@ -29,7 +31,6 @@ $res = mysqli_query($con, $sql);
         <div class="container">
             <a class="navbar-brand"><img width="160" src="carousel/logo.svg" alt=""></a>
             <div class="navbar-nav">
-
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <?= $_SESSION['EMP_USERNAME'] ?>
                 </a>
@@ -37,24 +38,21 @@ $res = mysqli_query($con, $sql);
                     <li><a class="dropdown-item" href="logout.php">تسجيل الخروج</a></li>
                 </ul>
             </div>
-
         </div>
     </nav>
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-2">
-
-            </div>
+            <div class="col-md-2"></div>
             <div class="col-md-8">
-                <h2>المواد الدراسية  والاختبارات</h2>
+                <h2>المواد الدراسية التي سوف تراقب عليها</h2>
                 <div class="table-stats order-table ov-h">
                     <table class="table ">
                         <thead>
                             <tr>
                                 <th class="serial">#</th>
                                 <th>اسم المساق</th>
-                                <th>السنة الدراسية للمادة</th>
-                                <th>تاريخ تدريس المادة </th>
+                                 <th>تاريخ تدريس المادة</th>
+                                <th>مراقبي الاختبار</th>
                                 <th>موعد الاختبار</th>
                             </tr>
                         </thead>
@@ -62,28 +60,37 @@ $res = mysqli_query($con, $sql);
                             <?php
                             $i = 1;
                             while ($row = mysqli_fetch_assoc($res)) {
-                                $sql_sub = "select * from subjects  where id ='" . $row['sub_id'] . "'";
-                                $res_sub = mysqli_query($con, $sql_sub);
-                                $year = date("Y", strtotime($row['date']));
-                                while ($row_sub = mysqli_fetch_assoc($res_sub)) {
-                                    $subject_name = $row_sub['name'];
-                                $sql_ex = "select * from exam  where sub_id ='" . $row_sub['id'] . "'";
+                                $subject_id = $row['sub_id'];
+                                $subject_name = $row['subject_name'];
+                                 $teach_date = date("Y-m-d", strtotime($row['date']));
+
+                                $sql_ex = "SELECT * FROM exam WHERE sub_id = '$subject_id' AND invigilators IS NOT NULL";
                                 $res_ex = mysqli_query($con, $sql_ex);
-                                
-                            ?>
-                                    <tr>
-                                        <td class="serial"><?php echo $i ?></td>
-                                        <td><?php echo $subject_name ?></td>
-                                        <td><?php echo $row_sub['ac_year'] ?></td>
-                                        <td><?php echo $year ?></td>
-                                        <td><?php while ($row_ex = mysqli_fetch_assoc($res_ex)) {
-                                                $date = date("y-m-d", strtotime($row_ex['exam_date']));
-                                                echo $date;
-                                            }?></td>
-                                    </tr>
-                            <?php $i++;
+
+                                while ($row_ex = mysqli_fetch_assoc($res_ex)) {
+                                    $invigilators = json_decode($row_ex['invigilators'], true);
+
+                                    echo "<tr>";
+                                    echo "<td class='serial'>" . $i . "</td>";
+                                    echo "<td>" . $subject_name . "</td>";
+                                     echo "<td>" . $teach_date . "</td>";
+                                    echo "<td>";
+                                    foreach ($invigilators as $invigilator) {
+                                        $teacher_sql = "SELECT name FROM teacher WHERE id = '$invigilator'";
+                                        $teacher_result = mysqli_query($con, $teacher_sql);
+                                        $teacher_row = mysqli_fetch_assoc($teacher_result);
+                                        $teacher_name = $teacher_row['name'];
+
+                                        echo $teacher_name . "<br>";
+                                    }
+                                    echo "</td>";
+                                    echo "<td>" . date("y-m-d", strtotime($row_ex['exam_date'])) . "</td>";
+                                    echo "</tr>";
+
+                                    $i++;
                                 }
-                            } ?>
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>

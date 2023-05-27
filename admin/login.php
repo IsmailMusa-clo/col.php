@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
       <div class="container ml-5">
          <div class="login-content ">
             <div class="login-form mt-150">
-               <form method="post">
+                <form method="post" action="">
                   <div class="form-group">
                      <label><b>USERNAME</b></label>
                      <input type="text" name="username" class="form-control" placeholder="        " required>
@@ -77,7 +77,7 @@ if (isset($_POST['submit'])) {
                   </div>
                   <div class="my-5 gap-2 d-flex justify-content-end">
                      <button type="submit" name="submit" class="btn btn-success btn-flat m-b-30 m-t-30">SIGN IN</button>
-                     <a href="../index.php" class="btn btn-info" >الرجوع لصفحة المستخدم</a>
+                     <a href="../index.php" class="btn btn-info">الرجوع لصفحة المستخدم</a>
                   </div>
                </form>
                <div class="field_error"><?php echo $msg ?></div>
