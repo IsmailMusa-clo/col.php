@@ -18,6 +18,8 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <title>لوحة تحكم عربية</title>
 </head>
 
@@ -38,6 +40,14 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
 
                 </li>
                 <li class="nav-item active">
+                    <a href="index.php">
+                        <span class="icon">
+                            <i class='bx bx-collapse-horizontal'></i>
+                        </span>
+                        <span class="title"> الرئيسية </span>
+                    </a>
+                </li>
+                <li class="nav-item ">
                     <a href="subjects.php">
                         <span class="icon">
                             <i class='bx bx-collapse-horizontal'></i>
@@ -45,7 +55,7 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
                         <span class="title"> المواد الدراسية</span>
                     </a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <a href="dist_teach.php">
                         <span class="icon">
                             <i class='bx bx-collapse-horizontal'></i>

@@ -28,8 +28,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "INSERT INTO exam (exam_date, sub_id) VALUES ('$exam_date', '$sub_id')";
     mysqli_query($con, $sql);
 }
-?>
 
+?>
+<style>
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: inline-block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="date"],
+    select {
+        display: inline-block;
+        width: 60%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        outline: none;
+        font-size: 16px;
+    }
+
+    button,
+    .box-link {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    button {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .box-link {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+
+    .box-link:hover {
+        background-color: #138496;
+    }
+</style>
 <div class="content pb-0" style="text-align:center">
     <div class="orders">
         <div class="row">
@@ -37,26 +88,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="card">
                     <div class="card-body">
                         <h4 class="box-title">الاختبارات للمواد الدارسية</h4>
-                        <h4 class="box-link btn btn-info"><a href="manage_dist_teach.php">توزيع الاختبارات</a></h4>
                     </div>
                     <div class="card-body--">
                         <div class="table-stats order-table ov-h">
-                            <form method="POST" action="">
-                                <div class="form-group">
-                                    <label for="exam_date">تاريخ الاختبار:</label>
-                                    <input type="date" id="exam_date" name="exam_date" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="sub_id">اختر المادة:</label>
-                                    <select id="sub_id" name="sub_id" required>
-                                        <option value="">اختر المادة</option>
-                                        <?php foreach ($subjects as $subject) { ?>
-                                            <option value="<?php echo $subject['id']; ?>"><?php echo $subject['name']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary">إضافة الاختبار</button>
-                            </form>
+
+                            <div class="container">
+                                <form method="POST" action="">
+                                    <div class="form-group">
+                                        <label for="exam_date">تاريخ الاختبار:</label>
+                                        <input type="date" id="exam_date" name="exam_date" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sub_id">اختر المادة:</label>
+                                        <select id="sub_id" name="sub_id" required>
+                                            <option value="">اختر المادة</option>
+                                            <?php foreach ($subjects as $subject) { ?>
+                                                <option value="<?php echo $subject['id']; ?>"><?php echo $subject['name']; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">إضافة الاختبار</button>
+                                        <a href="manage_dist_teach.php" class="box-link btn btn-info">توزيع الاختبارات</a>
+                                    </div>
+                                </form>
+                            </div>
+
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -85,14 +142,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 $invigilators = json_decode($row['invigilators'], true);
 
                                                 // Display the invigilators' names
-                                                foreach ($invigilators as $invigilator) {
-                                                    // Get the teacher's name from the teachers table
-                                                    $teacher_sql = "SELECT name FROM teacher WHERE id = $invigilator";
-                                                    $teacher_result = mysqli_query($con, $teacher_sql);
-                                                    $teacher_row = mysqli_fetch_assoc($teacher_result);
-                                                    $teacher_name = $teacher_row['name'];
+                                                if ($invigilators != null) {
+                                                    # code...
 
-                                                    echo $teacher_name . '<br>';
+                                                    foreach ($invigilators as $invigilator) {
+                                                        // Get the teacher's name from the teachers table
+                                                        $teacher_sql = "SELECT name FROM teacher WHERE id = $invigilator";
+                                                        $teacher_result = mysqli_query($con, $teacher_sql);
+                                                        $teacher_row = mysqli_fetch_assoc($teacher_result);
+                                                        $teacher_name = $teacher_row['name'];
+
+                                                        echo $teacher_name . '<br>';
+                                                    }
                                                 }
                                                 ?>
                                             </td>
@@ -101,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <td><?php echo $row['time'] ?></td>
                                             <td>
                                                 <?php
-                                                echo "<span class='badge badge-edit'><a href='manage_dist_teach.php?id=" . $row['id'] . "'>Edit</a></span>&nbsp;";
+                                                echo "<span class='badge badge-edit'><a href='edit_date.php?id=" . $row['id'] . "'>Edit</a></span>&nbsp;";
                                                 echo "<span class='badge badge-delete'><a href='?type=delete&id=" . $row['id'] . "'>Delete</a></span>";
                                                 ?>
                                             </td>
