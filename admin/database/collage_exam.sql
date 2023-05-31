@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 03, 2023 at 07:19 PM
+-- Generation Time: Jun 01, 2023 at 12:23 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -59,6 +59,13 @@ CREATE TABLE `contact_us` (
   `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `contact_us`
+--
+
+INSERT INTO `contact_us` (`id`, `name`, `email`, `mobile`, `comment`, `date`) VALUES
+(4, 'ali', 'ali@gmail.com', '987456321', 'this is first contact', '2023-05-31 21:42:56');
+
 -- --------------------------------------------------------
 
 --
@@ -68,9 +75,22 @@ CREATE TABLE `contact_us` (
 CREATE TABLE `exam` (
   `id` bigint(20) NOT NULL,
   `exam_date` timestamp NULL DEFAULT current_timestamp(),
+  `teacher_id` int(11) DEFAULT NULL,
   `sub_id` bigint(20) NOT NULL,
-  `date` timestamp NULL DEFAULT current_timestamp()
+  `time` enum('first','second') DEFAULT NULL,
+  `date` timestamp NULL DEFAULT current_timestamp(),
+  `invigilators` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `exam`
+--
+
+INSERT INTO `exam` (`id`, `exam_date`, `teacher_id`, `sub_id`, `time`, `date`, `invigilators`) VALUES
+(117, '2023-06-06 21:00:00', NULL, 13, 'first', '2023-05-31 22:22:37', '[\"1\",\"8\"]'),
+(118, '2023-05-27 21:00:00', NULL, 14, 'second', '2023-05-31 22:22:37', '[\"9\",\"1\"]'),
+(119, '2023-06-17 21:00:00', NULL, 15, 'first', '2023-05-31 22:22:37', '[\"8\",\"9\"]'),
+(120, '2023-05-30 21:00:00', NULL, 16, 'second', '2023-05-31 22:22:37', '[\"1\",\"8\"]');
 
 -- --------------------------------------------------------
 
@@ -80,44 +100,19 @@ CREATE TABLE `exam` (
 
 CREATE TABLE `season` (
   `id` bigint(20) NOT NULL,
-  `season` enum('1','2') NOT NULL DEFAULT '1',
-  `date` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `std_reg`
---
-
-CREATE TABLE `std_reg` (
-  `id` bigint(20) NOT NULL,
-  `std_id` bigint(20) NOT NULL,
-  `sub_id` bigint(20) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `students`
---
-
-CREATE TABLE `students` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `spec` varchar(100) NOT NULL,
-  `ac_year` int(11) NOT NULL DEFAULT 1,
-  `phone` varchar(100) NOT NULL,
+  `season` tinyint(4) DEFAULT NULL,
+  `start_exams` date DEFAULT NULL,
+  `end_exams` date DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `students`
+-- Dumping data for table `season`
 --
 
-INSERT INTO `students` (`id`, `name`, `spec`, `ac_year`, `phone`, `date`) VALUES
-(1, 'ahmed', 'كهرباء', 4, '0597865143', '2023-05-03 16:27:30');
+INSERT INTO `season` (`id`, `season`, `start_exams`, `end_exams`, `date`) VALUES
+(1, 2, '2023-05-09', '2023-06-22', '2023-05-31 20:50:05'),
+(2, 1, '2023-06-13', '2023-06-20', '2023-05-31 21:00:47');
 
 -- --------------------------------------------------------
 
@@ -129,7 +124,7 @@ CREATE TABLE `subjects` (
   `id` bigint(20) NOT NULL,
   `name` varchar(100) NOT NULL,
   `ac_year` int(11) NOT NULL DEFAULT 1,
-  `season` enum('1','2') NOT NULL,
+  `season` int(11) NOT NULL,
   `desc` text DEFAULT NULL,
   `date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -139,7 +134,10 @@ CREATE TABLE `subjects` (
 --
 
 INSERT INTO `subjects` (`id`, `name`, `ac_year`, `season`, `desc`, `date`) VALUES
-(12, 'mathmatic', 2, '2', NULL, '2023-05-03');
+(13, 'برمجة1', 2, 1, NULL, '2023-05-03'),
+(14, 'arabic', 1, 2, NULL, '2023-05-09'),
+(15, 'ميكانيكا', 2, 1, NULL, '2023-05-30'),
+(16, 'كفر جوال', 2, 2, NULL, '2023-06-01');
 
 -- --------------------------------------------------------
 
@@ -150,6 +148,7 @@ INSERT INTO `subjects` (`id`, `name`, `ac_year`, `season`, `desc`, `date`) VALUE
 CREATE TABLE `teacher` (
   `id` bigint(20) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -157,8 +156,10 @@ CREATE TABLE `teacher` (
 -- Dumping data for table `teacher`
 --
 
-INSERT INTO `teacher` (`id`, `name`, `date`) VALUES
-(1, 'ali mohammed j', '2023-05-03 16:10:13');
+INSERT INTO `teacher` (`id`, `name`, `password`, `date`) VALUES
+(1, 'ali mohammed ', '123456', '2023-05-03 16:10:13'),
+(8, 'khaled mohammed', '123456', '2023-05-09 15:19:05'),
+(9, 'ahmed', '123456', '2023-05-09 15:19:21');
 
 -- --------------------------------------------------------
 
@@ -172,6 +173,14 @@ CREATE TABLE `teach_subject` (
   `sub_id` bigint(20) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `teach_subject`
+--
+
+INSERT INTO `teach_subject` (`id`, `tech_id`, `sub_id`, `date`) VALUES
+(3, 9, 13, '2023-05-09 15:23:42'),
+(4, 8, 14, '2023-05-09 15:23:49');
 
 --
 -- Indexes for dumped tables
@@ -200,20 +209,6 @@ ALTER TABLE `exam`
 -- Indexes for table `season`
 --
 ALTER TABLE `season`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `std_reg`
---
-ALTER TABLE `std_reg`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `std_id` (`std_id`),
-  ADD KEY `sub_id` (`sub_id`);
-
---
--- Indexes for table `students`
---
-ALTER TABLE `students`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -250,49 +245,37 @@ ALTER TABLE `admin_users`
 -- AUTO_INCREMENT for table `contact_us`
 --
 ALTER TABLE `contact_us`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `exam`
 --
 ALTER TABLE `exam`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `season`
 --
 ALTER TABLE `season`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `std_reg`
---
-ALTER TABLE `std_reg`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `students`
---
-ALTER TABLE `students`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `teacher`
 --
 ALTER TABLE `teacher`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `teach_subject`
 --
 ALTER TABLE `teach_subject`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -303,13 +286,6 @@ ALTER TABLE `teach_subject`
 --
 ALTER TABLE `exam`
   ADD CONSTRAINT `exam_ibfk_1` FOREIGN KEY (`sub_id`) REFERENCES `subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `std_reg`
---
-ALTER TABLE `std_reg`
-  ADD CONSTRAINT `std_reg_ibfk_1` FOREIGN KEY (`std_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `std_reg_ibfk_2` FOREIGN KEY (`sub_id`) REFERENCES `subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `teach_subject`
