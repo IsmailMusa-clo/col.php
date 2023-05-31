@@ -6,10 +6,10 @@ if (!isset($_SESSION['EMP_LOGIN'])) {
 }
 
 $teacher_id = $_SESSION['EMP_ID'];
-$sql = "SELECT e.*, s.name AS subject_name
-FROM exam e
-INNER JOIN subjects s ON e.sub_id = s.id
-WHERE e.invigilators LIKE '%$teacher_id%'";
+$sql = "SELECT ts.*, s.name AS subject_name
+FROM teach_subject ts
+INNER JOIN subjects s ON ts.sub_id = s.id
+WHERE ts.tech_id = '$teacher_id'";
 
 $res = mysqli_query($con, $sql);
 
@@ -27,7 +27,7 @@ $res = mysqli_query($con, $sql);
 
 <body>
     <!-- النافبار -->
-     <nav class="navbar navbar-expand-lg py-3 bg-light">
+    <nav class="navbar navbar-expand-lg py-3 bg-light">
         <div class="container">
             <a class="navbar-brand"><img width="160" src="carousel/logo.svg" alt=""></a>
             <div class="navbar-nav">
@@ -42,56 +42,34 @@ $res = mysqli_query($con, $sql);
             </div>
         </div>
     </nav>
-
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <h2>المواد الدراسية التي سوف تراقب عليها</h2>
+                <h2>المواد التي يدرسها المدرس</h2>
                 <div class="table-stats order-table ov-h">
                     <table class="table ">
                         <thead>
                             <tr>
                                 <th class="serial">#</th>
-                                <th>اسم المساق</th>
-                                <th>تاريخ تدريس المادة</th>
-                                <th>مراقبي الاختبار</th>
-                                <th>موعد الاختبار</th>
+                                <th>اسم المادة</th>
+                                <th>تاريخ</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             $i = 1;
                             while ($row = mysqli_fetch_assoc($res)) {
-                                $subject_id = $row['sub_id'];
                                 $subject_name = $row['subject_name'];
-                                $teach_date = date("Y-m-d", strtotime($row['date']));
+                                $teach_date = $row['date'];
 
-                                $sql_ex = "SELECT * FROM exam WHERE sub_id = '$subject_id' AND invigilators IS NOT NULL";
-                                $res_ex = mysqli_query($con, $sql_ex);
+                                echo "<tr>";
+                                echo "<td class='serial'>" . $i . "</td>";
+                                echo "<td>" . $subject_name . "</td>";
+                                echo "<td>" . $teach_date . "</td>";
+                                echo "</tr>";
 
-                                while ($row_ex = mysqli_fetch_assoc($res_ex)) {
-                                    $invigilators = json_decode($row_ex['invigilators'], true);
-
-                                    echo "<tr>";
-                                    echo "<td class='serial'>" . $i . "</td>";
-                                    echo "<td>" . $subject_name . "</td>";
-                                    echo "<td>" . $teach_date . "</td>";
-                                    echo "<td>";
-                                    foreach ($invigilators as $invigilator) {
-                                        $teacher_sql = "SELECT name FROM teacher WHERE id = '$invigilator'";
-                                        $teacher_result = mysqli_query($con, $teacher_sql);
-                                        $teacher_row = mysqli_fetch_assoc($teacher_result);
-                                        $teacher_name = $teacher_row['name'];
-
-                                        echo $teacher_name . "<br>";
-                                    }
-                                    echo "</td>";
-                                    echo "<td>" . date("y-m-d", strtotime($row_ex['exam_date'])) . "</td>";
-                                    echo "</tr>";
-
-                                    $i++;
-                                }
+                                $i++;
                             }
                             ?>
                         </tbody>
