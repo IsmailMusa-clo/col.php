@@ -66,15 +66,19 @@ if (isset($_POST['submit'])) {
 								<input type="number" min="1" max="5" name="ac_year" placeholder="ENTER ac year" class="form-control" required value="<?php echo $ac_year ?>">
 							</div>
 							<div class="form-group">
-								<label for="season" class=" form-control-label">الفصل الدارسي</label>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="season" <?php if ($season == '1') echo 'checked'; ?> id="inlineRadio1" value="1">
-									<label class="form-check-label" value="1" for="inlineRadio1">الأول</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="season" id="inlineRadio2" <?php if ($season == 2) echo 'checked'; ?> value="2">
-									<label class="form-check-label" value="2" for="inlineRadio2">الثاني</label>
-								</div>
+								<label for="season" class=" form-control-label">الفصل الدراسي</label>
+								<select name="season" required class="form-control">
+									<option value="">اختر الفصل الدراسي</option>
+									<?php
+									$seasons_sql = "SELECT * FROM season";
+									$seasons_result = mysqli_query($con, $seasons_sql);
+									while ($season_row = mysqli_fetch_assoc($seasons_result)) {
+										$season_id = $season_row['id'];
+										$season_name = $season_row['season'];
+										echo "<option value='$season_id' " . ($season_id == $season ? 'selected' : '') . ">$season_name</option>";
+									}
+									?>
+								</select>
 							</div>
 							<button id="payment-button" name="submit" type="submit" class="btn btn-lg btn-info btn-block">
 								<span id="payment-button-amount">SUBMIT</span>

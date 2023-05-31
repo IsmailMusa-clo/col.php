@@ -88,32 +88,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="card">
                     <div class="card-body">
                         <h4 class="box-title">الاختبارات للمواد الدارسية</h4>
+                        <h4 class="box-title">توزيع الاختبارات</h4>
+                        <form action="manage_dist_teach.php" method="get">
+                            <select name="season" required>
+                                <option value="">اختر الفصل الدراسي</option>
+                                <?php
+                                $season_sql = "SELECT * FROM season";
+                                $season_result = mysqli_query($con, $season_sql);
+                                while ($season_row = mysqli_fetch_assoc($season_result)) {
+                                     $season_name = $season_row['season'];
+
+                                    // Check if the current season ID matches the selected season ID
+                                    $selected = ($season_id == $season) ? 'selected' : '';
+
+                                    echo "<option value='$season_name' $selected>$season_name</option>";
+                                }
+                                ?>
+                            </select>
+
+                            <button type="submit" class="btn btn-info">توزيع الاختبارات لهذا الفصل الدراسي</button>
+                        </form>
+
                     </div>
                     <div class="card-body--">
                         <div class="table-stats order-table ov-h">
-
-                            <div class="container">
-                                <form method="POST" action="">
-                                    <div class="form-group">
-                                        <label for="exam_date">تاريخ الاختبار:</label>
-                                        <input type="date" id="exam_date" name="exam_date" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="sub_id">اختر المادة:</label>
-                                        <select id="sub_id" name="sub_id" required>
-                                            <option value="">اختر المادة</option>
-                                            <?php foreach ($subjects as $subject) { ?>
-                                                <option value="<?php echo $subject['id']; ?>"><?php echo $subject['name']; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">إضافة الاختبار</button>
-                                        <a href="manage_dist_teach.php" class="box-link btn btn-info">توزيع الاختبارات</a>
-                                    </div>
-                                </form>
-                            </div>
-
                             <table class="table">
                                 <thead>
                                     <tr>
