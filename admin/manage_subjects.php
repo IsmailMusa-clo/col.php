@@ -75,7 +75,7 @@ if (isset($_POST['submit'])) {
 									while ($season_row = mysqli_fetch_assoc($seasons_result)) {
 										$season_id = $season_row['id'];
 										$season_name = $season_row['season'];
-										echo "<option value='$season_id' " . ($season_id == $season ? 'selected' : '') . ">$season_name</option>";
+										echo "<option value='$season_name' " . ($season_name == $season ? 'selected' : '') . ">$season_name</option>";
 									}
 									?>
 								</select>

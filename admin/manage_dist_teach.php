@@ -16,7 +16,7 @@ if (isset($_GET['season']) && $_GET['season'] != '') {
     $season_id = $_GET['season'];
 
     // Fetch the start and end exams dates for the selected season
-    $season_sql = "SELECT * FROM season WHERE id = $season_id";
+    $season_sql = "SELECT * FROM season WHERE season = $season_id";
     $season_result = mysqli_query($conn, $season_sql);
     $season_row = mysqli_fetch_assoc($season_result);
     $start_exams = $season_row['start_exams'];
