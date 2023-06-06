@@ -94,7 +94,7 @@ function generateExamDate($start_date, $end_date, $duration)
         $day_of_week = date("N", strtotime($current_date));
 
         // Exclude Fridays (5) and Thursdays (4)
-        if ($day_of_week != 5 && $day_of_week != 4) {
+        if ($day_of_week != 5 && $day_of_week != 6) {
             $valid_exam_dates[] = $current_date;
         }
     }
