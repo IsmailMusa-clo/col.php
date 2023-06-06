@@ -79,9 +79,7 @@ $conn->close();
 header("Location: dist_teach.php");
 exit();
 
-// Function to generate a random exam date within the given start and end dates, excluding weekends
-// Function to generate a random exam date within the given start and end dates, excluding Fridays and Thursdays
-function generateExamDate($start_date, $end_date, $duration)
+ function generateExamDate($start_date, $end_date, $duration)
 {
     $start_timestamp = strtotime($start_date);
     $end_timestamp = strtotime($end_date);
@@ -93,7 +91,7 @@ function generateExamDate($start_date, $end_date, $duration)
         $current_date = date("Y-m-d", strtotime("+$i day", $start_timestamp));
         $day_of_week = date("N", strtotime($current_date));
 
-        // Exclude Fridays (5) and Thursdays (4)
+        // Exclude Fridays (5) and satday (6)
         if ($day_of_week != 5 && $day_of_week != 6) {
             $valid_exam_dates[] = $current_date;
         }
