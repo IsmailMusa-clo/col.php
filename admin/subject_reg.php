@@ -19,7 +19,7 @@ $res = mysqli_query($con, $sql);
         <div class="row">
             <div class="col-xl-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body ">
                         <h4 class="box-title">المواد المسجلة للسنة الدراسية </h4>
  
                     </div>

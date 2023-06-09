@@ -7,10 +7,10 @@ $msg = '';
 if (isset($_GET['id']) && $_GET['id'] != '') {
     $id = get_safe_value($con, $_GET['id']);
     $res = mysqli_query($con, "select * from teacher where id='$id'");
-     $check = mysqli_num_rows($res);
+    $check = mysqli_num_rows($res);
     if ($check > 0) {
         $row = mysqli_fetch_assoc($res);
-         $name = $row['name'];
+        $name = $row['name'];
         $tech_id = $row['id'];
         $res_subject = mysqli_query($con, "select * from subjects");
     } else {
@@ -37,7 +37,7 @@ if (isset($_POST['submit'])) {
     }
 
     if ($msg == '') {
-           mysqli_query($con, "insert into teach_subject(`tech_id`,`sub_id`) values('$tech_id','$sub_id')"); 
+        mysqli_query($con, "insert into teach_subject(`tech_id`,`sub_id`) values('$tech_id','$sub_id')");
         echo "<script>window.location.href='teachers.php'</script>";
         die();
     }
@@ -48,27 +48,27 @@ if (isset($_POST['submit'])) {
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header"><strong>المدرس</strong> </div>
+                    <div class="card-header"><strong>المهندس</strong> </div>
                     <form method="post" action="">
                         <div class="card-body card-block">
                             <div class="form-group">
                                 <label for="name" class=" form-control-label">مهندس المادة</label>
-                                <input type="text" name="name" placeholder="ENTER  NAME"  class="form-control" required value="<?php echo $name ?>">
-                                <input type="hidden" name="id" placeholder="ENTER  NAME"  class="form-control" required value="<?php echo $tech_id ?>">
+                                <input type="text" name="name" placeholder="ENTER  NAME" class="form-control" required value="<?php echo $name ?>">
+                                <input type="hidden" name="id" placeholder="ENTER  NAME" class="form-control" required value="<?php echo $tech_id ?>">
                             </div>
                             <div class="form-group">
                                 <label for="name" class=" form-control-label">المادة</label>
-                                <select class="form-select" name="sub_id" aria-label="Default select example">
+                                <select class="form-control" name="sub_id" aria-label="Default select example">
                                     <option selected>اختر المادة التي تريد تسجيلها</option>
                                     <?php while ($row = mysqli_fetch_assoc($res_subject)) { ?>
-                                        <option value="<?=$row['id']?>" ><?= $row['name'] ?></option>
+                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                     <?php
                                     }
                                     ?>
                                 </select>
                             </div>
                             <button id="payment-button" name="submit" type="submit" class="btn btn-lg btn-info btn-block">
-                                <span id="payment-button-amount">SUBMIT</span>
+                                <span id="payment-button-amount">تأكيد</span>
                             </button>
                             <div class="field_error"><?php echo $msg ?></div>
                         </div>

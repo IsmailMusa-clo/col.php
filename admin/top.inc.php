@@ -8,128 +8,143 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="IR-fa" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="CoreUI Bootstrap 4 Admin Template">
+    <meta name="author" content="Lukasz Holeczek">
+    <meta name="keyword" content="CoreUI Bootstrap 4 Admin Template">
+    <title>لوحة التحكم</title>
+    <!-- Icons -->
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/simple-line-icons.css" rel="stylesheet">
+    <link href="assets/css/dest/style.css" rel="stylesheet">
+    <style>
+        .container::after {
+            display: none !important;
+        }
 
-    <title>لوحة تحكم عربية</title>
+        .card {
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .table {
+            text-align: right;
+        }
+
+        .badge-edit {
+            background: #e1e1e1;
+            padding: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+        }
+
+        .badge-edit a {
+            color: #010101 !important;
+
+        }
+
+        .badge-delete {
+            background: red;
+            padding: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+        }
+
+        .badge-delete a {
+            color: #fff !important;
+
+        }
+
+        .add {
+            border-radius: 5px;
+        }
+
+        .add a {
+            color: #fff;
+        }
+
+        .c-t {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .box-title{
+            color:blue;
+            font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+       
+        }
+    </style>
+
 </head>
 
-<body>
-
-    <div class="">
-
-        <!-- sidebar -->
-        <div class="sidebar">
-            <ul class="nav-list">
-                <li class="nav-item brand-name">
-                    <a href="index.php">
-                        <span class="icon">
-                            <i class='bx bx-md bxs-castle'></i>
-                        </span>
-                        <span class="title">لوحة التحكم</span>
-                    </a>
-
-                </li>
-                <li class="nav-item active">
-                    <a href="index.php">
-                        <span class="icon">
-                            <i class='bx bx-collapse-horizontal'></i>
-                        </span>
-                        <span class="title"> الرئيسية </span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a href="season.php">
-                        <span class="icon">
-                            <i class='bx bx-collapse-horizontal'></i>
-                        </span>
-                        <span class="title">الفصول الدراسية</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a href="subjects.php">
-                        <span class="icon">
-                            <i class='bx bx-collapse-horizontal'></i>
-                        </span>
-                        <span class="title"> المواد الدراسية</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a href="dist_teach.php">
-                        <span class="icon">
-                            <i class='bx bx-collapse-horizontal'></i>
-                        </span>
-                        <span class="title"> تحديد مواعيد الاختبارات </span>
-                    </a>
-                </li>
+<body class="navbar-fixed sidebar-nav fixed-nav">
+    <header class="navbar">
+        <div class="container" style="display:flex;justify-content:space-between">
+            <ul class="nav navbar-nav hidden-md-down">
                 <li class="nav-item">
-                    <a href="teachers.php">
-                        <span class="icon">
-                            <i class='bx bx-collapse-horizontal'></i> </span>
-                        <span class="title">المهندسين</span>
-                    </a>
+                    <a class="nav-link navbar-toggler layout-toggler" href="#">&#9776;</a>
                 </li>
-                <li class="nav-item">
-                    <a href="subject_reg.php">
-                        <span class="icon">
-                            <i class='bx bx-collapse-horizontal'></i> </span>
-                        <span class="title">الموادالمسجلة </span>
+            </ul>
+            <ul class="nav navbar-nav pull-left">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="hidden-md-down"><?= $_SESSION['ADMIN_USERNAME'] ?></span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="contact_us.php">
-                        <span class="icon">
-                            <i class='bx bx-collapse-horizontal'></i> </span>
-                        <span class="title">طلبات التواصل</span>
-                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="logout.php"><i class="fa fa-lock"></i> خروج</a>
+                    </div>
                 </li>
             </ul>
         </div>
-
-        <!-- main content -->
-        <div class="main">
-            <!-- Top Bar -->
-            <div class="topbar">
-                <!-- Toggle button -->
-                <div class="toggle">
-                    <i class='bx bx-menu' name="menu"></i>
-                    <i class='bx bx-x' name="close"></i>
-                </div>
-
-                <!-- User profile -->
-                <div class="user">
-                    <!-- Theme Toggler -->
-                    <div class="theme-toggler">
-                        <span class="icon">
-                            <i class='bx bx-sun' name="sun"></i>
-                            <!-- <i class='bx bx-moon' name="moon"></i> -->
-                        </span>
-                    </div>
-                    <div class="dropBox">
-                        <div class="select-btn">
-                            <span class="icon">
-                                <i class='bx bx-chevron-down'></i>
-                            </span>
-                            <span class="user-name"><?php echo $_SESSION['ADMIN_USERNAME'] ?></span>
-                            <div class="img-box"><img src="images/admin.jpg" alt=""></div>
-                        </div>
-
-                        <div class="result-box">
-                            <div class="items">
-                                <ul>
-                                    <li><a href="logout.php"><i class='bx bx-log-out-circle'></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container mt-5">
+    </header>
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php"><i class="icon-speedometer"></i> لوحة التحكم</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="season.php"><i class="icon-docs"></i> الفصول الدراسية</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="subjects.php"><i class="icon-docs"></i>المواد الدراسية</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="dist_teach.php"><i class="icon-clock"></i> تحديد مواعيد الاختبارات </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="teachers.php">
+                        <i class="icon-people"></i>المهندسين
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="subject_reg.php">
+                        <i class="icon-docs"></i> تسجيل المواد الدراسية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="buildings.php">
+                        <i class="icon-docs"></i>      المباني
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="classrooms.php">
+                        <i class="icon-docs"></i>      القاعات الدراسية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact_us.php">
+                        <i class="icon-people"></i>طلبات التواصل
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- Main content -->
+    <main class="main ">
+        <div class="container" style="margin-top:3%">

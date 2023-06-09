@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
                             <form method="POST" action="" class="mx-2">
                                 <input type="hidden" name="id" value="<?php echo $id; ?>">
                                 <div class="form-group row">
-                                    <label for="season" class="col-sm-2 col-form-label">Season:</label>
+                                    <label for="season" class="col-sm-2 col-form-label">الفصل:</label>
                                     <div class="col-sm-10">
                                         <input type="text" id="season" name="season" value="<?php echo $season; ?>" required class="form-control">
                                     </div>

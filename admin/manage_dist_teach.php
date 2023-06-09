@@ -40,6 +40,13 @@ if (isset($_GET['season']) && $_GET['season'] != '') {
         $teachers[] = $row['id'];
     }
 
+    $classrooms_sql = "SELECT id FROM classrooms";
+    $classrooms_result = $conn->query($classrooms_sql);
+    $classrooms = array();
+    while ($row = $classrooms_result->fetch_assoc()) {
+        $classrooms[] = $row['id'];
+    }
+
     $teacher_count = count($teachers);
     $teacher_index = 0;
     $time = 'first'; 
@@ -61,15 +68,17 @@ if (isset($_GET['season']) && $_GET['season'] != '') {
             }
         }
 
-
         // Convert the invigilators array to JSON
         $invigilators_json = json_encode($invigilators);
 
         // Generate a random date within the start and end exams dates, excluding weekends
         $exam_date = generateExamDate($start_exams, $end_exams, $exams_duration);
 
+        // Generate a random classroom, ensuring it's not already assigned at the same time and date
+        $classroom_id = generateClassroom($conn, $exam_date, $time, $classrooms);
+
         // Update the exam record with the selected subject, time, invigilators, and exam date
-        $sql = "INSERT INTO exam (sub_id, time, invigilators, exam_date) VALUES ('$sub_id', '$time', '$invigilators_json', '$exam_date')";
+        $sql = "INSERT INTO exam (sub_id, time, invigilators, exam_date, classroom_id) VALUES ('$sub_id', '$time', '$invigilators_json', '$exam_date', '$classroom_id')";
         $conn->query($sql);
     }
 }
@@ -79,7 +88,7 @@ $conn->close();
 header("Location: dist_teach.php");
 exit();
 
- function generateExamDate($start_date, $end_date, $duration)
+function generateExamDate($start_date, $end_date, $duration)
 {
     $start_timestamp = strtotime($start_date);
     $end_timestamp = strtotime($end_date);
@@ -101,3 +110,24 @@ exit();
 
     return $random_exam_date;
 }
+
+function generateClassroom($conn, $exam_date, $time, $classrooms)
+{
+    $classroom_id = null;
+    $found = false;
+
+    while (!$found) {
+        $random_classroom = $classrooms[array_rand($classrooms)];
+
+        $sql = "SELECT * FROM exam WHERE exam_date = '$exam_date' AND time = '$time' AND classroom_id = '$random_classroom'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows == 0) {
+            $found = true;
+            $classroom_id = $random_classroom;
+        }
+    }
+
+    return $classroom_id;
+}
+?>

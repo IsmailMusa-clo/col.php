@@ -10,6 +10,21 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
         mysqli_query($con, $delete_sql);
     }
 }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['delete_selected']) && !empty($_POST['selected_ids'])) {
+        $ids_to_delete = $_POST['selected_ids'];
+        $ids_to_delete = implode(',', array_map('intval', $ids_to_delete));
+        $delete_sql = "DELETE FROM exam WHERE id IN ($ids_to_delete)";
+        mysqli_query($con, $delete_sql);
+    } elseif (isset($_POST['exam_date']) && isset($_POST['sub_id'])) {
+        $exam_date = $_POST['exam_date'];
+        $sub_id = $_POST['sub_id'];
+
+        // Insert the new exam record into the database
+        $sql = "INSERT INTO exam (exam_date, sub_id) VALUES ('$exam_date', '$sub_id')";
+        mysqli_query($con, $sql);
+    }
+}
 
 // Fetch subjects without exam date
 $sql = "SELECT subjects.id, subjects.name FROM subjects LEFT JOIN exam ON subjects.id = exam.sub_id WHERE exam.sub_id IS NULL";
@@ -20,14 +35,15 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 // Insert new exam into the database
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $exam_date = $_POST['exam_date']; // Get the manually entered exam date
-    $sub_id = $_POST['sub_id']; // Get the selected subject ID
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['delete_selected'])) {
+    $exam_date = $_POST['exam_date'];
+    $sub_id = $_POST['sub_id'];
 
     // Insert the new exam record into the database
     $sql = "INSERT INTO exam (exam_date, sub_id) VALUES ('$exam_date', '$sub_id')";
     mysqli_query($con, $sql);
 }
+
 
 ?>
 <style>
@@ -52,15 +68,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         font-size: 16px;
     }
 
-    button,
-    .box-link {
+    .d-all,
+     .box-link {
         display: inline-block;
-        padding: 10px 20px;
         border-radius: 5px;
         border: none;
+        margin-right: 10px;
         font-size: 16px;
         cursor: pointer;
         text-decoration: none;
+        margin-top: 30px
     }
 
     button {
@@ -87,7 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="box-title">الاختبارات للمواد الدارسية</h4>
                         <h4 class="box-title">توزيع الاختبارات</h4>
                         <form action="manage_dist_teach.php" method="get">
                             <select name="season" required>
@@ -96,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $season_sql = "SELECT * FROM season";
                                 $season_result = mysqli_query($con, $season_sql);
                                 while ($season_row = mysqli_fetch_assoc($season_result)) {
-                                     $season_name = $season_row['season'];
+                                    $season_name = $season_row['season'];
 
                                     // Check if the current season ID matches the selected season ID
                                     $selected = ($season_id == $season) ? 'selected' : '';
@@ -111,72 +127,97 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     </div>
                     <div class="card-body--">
-                        <div class="table-stats order-table ov-h">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="serial">#</th>
-                                        <th>اسم المادة</th>
-                                        <th>مراقب الاختبار</th>
-                                        <th>تاريخ الاختبار</th>
-                                        <th>فترة الاختبار</th>
-                                        <th>تعديل أو حذف</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $i = 1;
-                                    $sql = "SELECT exam.*, subjects.name AS subject_name, teacher.name AS teacher_name FROM exam INNER JOIN subjects ON exam.sub_id = subjects.id LEFT JOIN teacher ON exam.teacher_id = teacher.id ORDER BY exam.id DESC";
-                                    $res = mysqli_query($con, $sql);
-                                    while ($row = mysqli_fetch_assoc($res)) {
-                                        $date_formatted = date('Y-m-d', strtotime($row['exam_date']));
-                                    ?>
+                        <span style="float: right;margin-top:30px">
+
+                            <input type="checkbox" id="select_all" />
+                            تحديد الكل<br>
+                        </span>
+                        <form method="post">
+                            <button type="submit" name="delete_selected" class="d-all" style="float: right;">Delete Selected</button>
+                            <div class="table-stats order-table ov-h">
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <td class="serial"><?php echo $i ?></td>
-                                            <td><?php echo $row['subject_name'] ?></td>
-                                            <td>
-                                                <?php
-                                                // Decode the JSON string to get the invigilators array
-                                                $invigilators = json_decode($row['invigilators'], true);
-
-                                                // Display the invigilators' names
-                                                if ($invigilators != null) {
-                                                    # code...
-
-                                                    foreach ($invigilators as $invigilator) {
-                                                        // Get the teacher's name from the teachers table
-                                                        $teacher_sql = "SELECT name FROM teacher WHERE id = $invigilator";
-                                                        $teacher_result = mysqli_query($con, $teacher_sql);
-                                                        $teacher_row = mysqli_fetch_assoc($teacher_result);
-                                                        $teacher_name = $teacher_row['name'];
-
-                                                        echo $teacher_name . '<br>';
-                                                    }
-                                                }
-                                                ?>
-                                            </td>
-
-                                            <td><?php echo $date_formatted ?></td>
-                                            <td><?php echo $row['time'] ?></td>
-                                            <td>
-                                                <?php
-                                                echo "<span class='badge badge-edit'><a href='edit_date.php?id=" . $row['id'] . "'>Edit</a></span>&nbsp;";
-                                                echo "<span class='badge badge-delete'><a href='?type=delete&id=" . $row['id'] . "'>Delete</a></span>";
-                                                ?>
-                                            </td>
+                                            <th class="serial">#</th>
+                                            <th>checkbox</th>
+                                            <th>اسم المادة</th>
+                                            <th>مراقب الاختبار</th>
+                                            <th>تاريخ الاختبار</th>
+                                            <th>فترة الاختبار</th>
+                                            <th>القاعة الدارسية</th>
+                                            <th>تعديل أو حذف</th>
                                         </tr>
-                                    <?php $i++;
-                                    } ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $i = 1;
+                                        $sql = "SELECT exam.*, subjects.name AS subject_name, teacher.name AS teacher_name FROM exam INNER JOIN subjects ON exam.sub_id = subjects.id LEFT JOIN teacher ON exam.teacher_id = teacher.id ORDER BY exam.id DESC";
+                                        $res = mysqli_query($con, $sql);
+                                        while ($row = mysqli_fetch_assoc($res)) {
+                                            $date_formatted = date('Y-m-d', strtotime($row['exam_date']));
+                                            // Get the classroom name from the classrooms table
+                                            $classroom_id = $row['classroom_id'];
+                                            $classroom_sql = "SELECT name FROM classrooms WHERE id = $classroom_id";
+                                            $classroom_result = mysqli_query($con, $classroom_sql);
+                                            $classroom_row = mysqli_fetch_assoc($classroom_result);
+                                            $classroom_name = $classroom_row['name'];
+                                        ?>
+                                            <tr>
+                                                <td class="serial"><?php echo $i ?></td>
+                                                <td><input type="checkbox" name="selected_ids[]" value="<?php echo $row['id']; ?>" /></td>
+                                                <td><?php echo $row['subject_name'] ?></td>
+                                                <td>
+                                                    <?php
+                                                    // Decode the JSON string to get the invigilators array
+                                                    $invigilators = json_decode($row['invigilators'], true);
+
+                                                    // Display the invigilators' names
+                                                    if ($invigilators != null) {
+                                                        # code...
+
+                                                        foreach ($invigilators as $invigilator) {
+                                                            // Get the teacher's name from the teachers table
+                                                            $teacher_sql = "SELECT name FROM teacher WHERE id = $invigilator";
+                                                            $teacher_result = mysqli_query($con, $teacher_sql);
+                                                            $teacher_row = mysqli_fetch_assoc($teacher_result);
+                                                            $teacher_name = $teacher_row['name'];
+
+                                                            echo $teacher_name . '<br>';
+                                                        }
+                                                    }
+                                                    ?>
+                                                </td>
+
+                                                <td><?php echo $date_formatted ?></td>
+                                                <td><?php echo $row['time'] ?></td>
+                                                <td><?php echo ($classroom_name != "") ? $classroom_name : "" ?></td>
+                                                <td>
+                                                    <?php
+                                                    echo "<span class='badge badge-edit'><a href='edit_date.php?id=" . $row['id'] . "'>Edit</a></span>&nbsp;";
+                                                    echo "<span class='badge badge-delete'><a href='?type=delete&id=" . $row['id'] . "'>Delete</a></span>";
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        <?php $i++;
+                                        } ?>
+                                    </tbody>
+                                </table>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+</div>
+<script>
+    document.getElementById("select_all").addEventListener("click", function(e) {
+        var boxes = document.querySelectorAll("input[type=\'checkbox\']");
+        for (var i = 0; i < boxes.length; i++) {
+            boxes[i].checked = e.target.checked;
+        }
+    });
+</script>
 <?php
 require('footer.inc.php');
 ?>

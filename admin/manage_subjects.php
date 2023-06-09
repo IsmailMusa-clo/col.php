@@ -59,7 +59,7 @@ if (isset($_POST['submit'])) {
 						<div class="card-body card-block">
 							<div class="form-group">
 								<label for="name" class=" form-control-label">اسم المادة</label>
-								<input type="text" name="name" placeholder="ENTER CATEGORIES NAME" class="form-control" required value="<?php echo $name ?>">
+								<input type="text" name="name" placeholder="ENTER Subjects NAME" class="form-control" required value="<?php echo $name ?>">
 							</div>
 							<div class="form-group">
 								<label for="ac_year" class=" form-control-label">السنة الدراسية للمادة</label>

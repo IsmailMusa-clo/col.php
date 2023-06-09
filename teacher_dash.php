@@ -6,9 +6,10 @@ if (!isset($_SESSION['EMP_LOGIN'])) {
 }
 
 $teacher_id = $_SESSION['EMP_ID'];
-$sql = "SELECT e.*, s.name AS subject_name
+$sql = "SELECT e.*, s.name AS subject_name, c.name AS classroom_name
 FROM exam e
 INNER JOIN subjects s ON e.sub_id = s.id
+LEFT JOIN classrooms c ON e.classroom_id = c.id
 WHERE e.invigilators LIKE '%$teacher_id%'";
 
 $res = mysqli_query($con, $sql);
@@ -27,7 +28,7 @@ $res = mysqli_query($con, $sql);
 
 <body>
     <!-- النافبار -->
-     <nav class="navbar navbar-expand-lg py-3 bg-light">
+    <nav class="navbar navbar-expand-lg py-3 bg-light">
         <div class="container">
             <a class="navbar-brand"><img width="160" src="carousel/logo.svg" alt=""></a>
             <div class="navbar-nav">
@@ -56,6 +57,7 @@ $res = mysqli_query($con, $sql);
                                 <th>اسم المساق</th>
                                 <th>تاريخ تدريس المادة</th>
                                 <th>مراقبي الاختبار</th>
+                                <th>القاعة</th>
                                 <th>موعد الاختبار</th>
                             </tr>
                         </thead>
@@ -66,6 +68,7 @@ $res = mysqli_query($con, $sql);
                                 $subject_id = $row['sub_id'];
                                 $subject_name = $row['subject_name'];
                                 $teach_date = date("Y-m-d", strtotime($row['date']));
+                                $classroom_name = $row['classroom_name'];
 
                                 $sql_ex = "SELECT * FROM exam WHERE sub_id = '$subject_id' AND invigilators IS NOT NULL";
                                 $res_ex = mysqli_query($con, $sql_ex);
@@ -87,6 +90,7 @@ $res = mysqli_query($con, $sql);
                                         echo $teacher_name . "<br>";
                                     }
                                     echo "</td>";
+                                    echo "<td>" . $classroom_name . "</td>";
                                     echo "<td>" . date("y-m-d", strtotime($row_ex['exam_date'])) . "</td>";
                                     echo "</tr>";
 

@@ -18,9 +18,9 @@ $res = mysqli_query($con, $sql);
 		<div class="row">
 			<div class="col-xl-12">
 				<div class="card">
-					<div class="card-body">
+					<div class="card-body c-t">
 						<h4 class="box-title">مهندس المادة </h4>
-						<h4 class="box-link btn btn-info"><a href="manage_teachers.php">إضافة </a> </h4>
+						<h4 class="box-link btn btn-info add"><a href="manage_teachers.php">إضافة </a> </h4>
 
 					</div>
 					<div class="card-body--">

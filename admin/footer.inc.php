@@ -1,10 +1,32 @@
-</div>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="js/app.js"></script>
-<script src="js/theme-script.js"></script>
+        </div>
+        </main>
+        <footer class="footer">
+            <span class="text-left">
+                <a href="">FED Com</a> &copy; FED Com .
+            </span>
+            <span class="pull-right">
+                Powered by <a href="">FED Com</a>
+            </span>
+        </footer>
+        <!-- Bootstrap and necessary plugins -->
+        <script src="assets/js/libs/jquery.min.js"></script>
+        <script src="assets/js/libs/tether.min.js"></script>
+        <script src="assets/js/libs/bootstrap.min.js"></script>
+        <script src="assets/js/libs/pace.min.js"></script>
 
-</body>
+        <!-- Plugins and scripts required by all views -->
+        <script src="assets/js/libs/Chart.min.js"></script>
 
-</html>
+        <!-- CoreUI main scripts -->
+
+        <script src="assets/js/app.js"></script>
+
+        <!-- Plugins and scripts required by this views -->
+        <!-- Custom scripts required by this view -->
+        <script src="assets/js/views/main.js"></script>
+
+        <!-- Grunt watch plugin -->
+        <script src="//localhost:35729/livereload.js"></script>
+        </body>
+
+        </html>
