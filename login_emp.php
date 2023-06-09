@@ -75,7 +75,7 @@ if (isset($_POST['submit'])) {
                   <div class="card-block text-xs-center">
                      <div>
                         <h2>أهلا وسهل بكم كلية جازان التقنية للبنين</h2>
-                        <a href="../index.php" class="btn btn-primary active m-t-1">العودة للصفحة الرئيسية </a>
+                        <a href="index.php" class="btn btn-primary active m-t-1">العودة للصفحة الرئيسية </a>
                      </div>
                   </div>
                </div>
